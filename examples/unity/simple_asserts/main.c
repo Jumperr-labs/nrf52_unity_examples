@@ -61,23 +61,6 @@
 #define UART_TX_BUF_SIZE 256                         /**< UART TX buffer size. */
 #define UART_RX_BUF_SIZE 256                         /**< UART RX buffer size. */
 
-#define RUN_TEST(TestFunc, TestLineNum) \
-{ \
-  Unity.CurrentTestName = #TestFunc; \
-  Unity.CurrentTestLineNumber = TestLineNum; \
-  Unity.NumberOfTests++; \
-  if (TEST_PROTECT()) \
-  { \
-      setUp(); \
-      TestFunc(); \
-  } \
-  if (TEST_PROTECT()) \
-  { \
-    tearDown(); \
-  } \
-  UnityConcludeTest(); \
-}
-
 /*=======Automagically Detected Files To Include=====*/
 #include "unity.h"
 #include <stdio.h>

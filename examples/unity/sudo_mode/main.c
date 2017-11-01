@@ -53,99 +53,91 @@
 #include "nrf_drv_clock.h"
 #include "boards.h"
 #include "app_error.h"
+#include "sensor_unit.h"
+#include "app_uart.h"
+#include "unity.h"
+
 #include <stdint.h>
 #include <stdbool.h>
 
-#define COMPARE_COUNTERTIME  (3UL)                                        /**< Get Compare event COMPARE_TIME seconds after the counter starts from 0. */
 
-#ifdef BSP_LED_0
-    #define TICK_EVENT_OUTPUT     BSP_LED_0                                 /**< Pin number for indicating tick event. */
-#endif
-#ifndef TICK_EVENT_OUTPUT
-    #error "Please indicate output pin"
-#endif
-#ifdef BSP_LED_1
-    #define COMPARE_EVENT_OUTPUT   BSP_LED_1                                /**< Pin number for indicating compare event. */
-#endif
-#ifndef COMPARE_EVENT_OUTPUT
-    #error "Please indicate output pin"
-#endif
+#define UART_TX_BUF_SIZE 256                         /**< UART TX buffer size. */
+#define UART_RX_BUF_SIZE 256                         /**< UART RX buffer size. */
 
-const nrf_drv_rtc_t rtc = NRF_DRV_RTC_INSTANCE(0); /**< Declaring an instance of nrf_drv_rtc for RTC0. */
 
-/** @brief: Function for handling the RTC0 interrupts.
- * Triggered on TICK and COMPARE0 match.
- */
-static void rtc_handler(nrf_drv_rtc_int_type_t int_type)
+void uart_error_handle(app_uart_evt_t * p_event)
 {
-    if (int_type == NRF_DRV_RTC_INT_COMPARE0)
+    if (p_event->evt_type == APP_UART_COMMUNICATION_ERROR)
     {
-        nrf_gpio_pin_toggle(COMPARE_EVENT_OUTPUT);
+        APP_ERROR_HANDLER(p_event->data.error_communication);
     }
-    else if (int_type == NRF_DRV_RTC_INT_TICK)
+    else if (p_event->evt_type == APP_UART_FIFO_ERROR)
     {
-        nrf_gpio_pin_toggle(TICK_EVENT_OUTPUT);
+        APP_ERROR_HANDLER(p_event->data.error_code);
     }
 }
 
-/** @brief Function configuring gpio for pin toggling.
- */
-static void leds_config(void)
+extern void setUp(void);
+extern void tearDown(void);
+extern void test_GetHasMeasurment_Should_Wait(void);
+extern void test_GetHasMeasurment_Should_Stop_Waiting(void);
+extern void test_Measurment_Should_Grow_Incrementally_Should_Fail_Because_Result_Is_Doubled_by_2(void);
+
+
+/*=======Test Reset Option=====*/
+void resetTest(void);
+void resetTest(void)
 {
-    bsp_board_leds_init();
+    tearDown();
+    setUp();
 }
 
-/** @brief Function starting the internal LFCLK XTAL oscillator.
- */
-static void lfclk_config(void)
-{
-    ret_code_t err_code = nrf_drv_clock_init();
-    APP_ERROR_CHECK(err_code);
 
-    nrf_drv_clock_lfclk_request(NULL);
-}
-
-/** @brief Function initialization and configuration of RTC driver instance.
- */
-static void rtc_config(void)
-{
-    uint32_t err_code;
-
-    //Initialize RTC instance
-    nrf_drv_rtc_config_t config = NRF_DRV_RTC_DEFAULT_CONFIG;
-    config.prescaler = 4095;
-    err_code = nrf_drv_rtc_init(&rtc, &config, rtc_handler);
-    APP_ERROR_CHECK(err_code);
-
-    //Enable tick event & interrupt
-    nrf_drv_rtc_tick_enable(&rtc,true);
-
-    //Set compare channel to trigger interrupt after COMPARE_COUNTERTIME seconds
-    err_code = nrf_drv_rtc_cc_set(&rtc,0,COMPARE_COUNTERTIME * 8,true);
-    APP_ERROR_CHECK(err_code);
-
-    //Power on RTC instance
-    nrf_drv_rtc_enable(&rtc);
-}
-
-/**
- * @brief Function for application main entry.
- */
 int main(void)
 {
-    leds_config();
+    uint32_t err_code = 0;
 
-    lfclk_config();
+    const app_uart_comm_params_t comm_params =
+    {
+        RX_PIN_NUMBER,
+        TX_PIN_NUMBER,
+        RTS_PIN_NUMBER,
+        CTS_PIN_NUMBER,
+        APP_UART_FLOW_CONTROL_ENABLED,
+        false,
+        UART_BAUDRATE_BAUDRATE_Baud115200
+    };
 
-    rtc_config();
+    APP_ERROR_CHECK(err_code);
+
+    APP_UART_FIFO_INIT(&comm_params,
+                   UART_RX_BUF_SIZE,
+                   UART_TX_BUF_SIZE,
+                   uart_error_handle,
+                   APP_IRQ_PRIORITY_LOWEST,
+                   err_code);
+
+    InitializeSensorModule();
+                   
+    UnityBegin("test/TestSensorUnit.c");
+
+    RUN_TEST(test_GetHasMeasurment_Should_Wait);
+    RUN_TEST(test_GetHasMeasurment_Should_Stop_Waiting);
+    RUN_TEST(test_Measurment_Should_Grow_Incrementally_Should_Fail_Because_Result_Is_Doubled_by_2);
+    
+    UnityEnd();
+
 
     while (true)
     {
-        __SEV();
-        __WFE();
-        __WFE();
+        // while (!GetHasMeasurement()) {
+        //     __WFE();
+        // }
+
+        // data = GetSensorData(); // do something with the data
+
+        // data++;        
     }
 }
 
 
-/**  @} */
