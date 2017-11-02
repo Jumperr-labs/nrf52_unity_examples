@@ -4,7 +4,7 @@ OUTPUT_DIRECTORY := _build
 
 SDK_ROOT := ../../../../../..
 PROJ_DIR := ../../..
-UNITY_DIR := ../../../../unity_lib
+UNITY_DIR := ../../../../../../components/unity_lib
 
 $(OUTPUT_DIRECTORY)/nrf52832_xxaa.out: \
   LINKER_SCRIPT  := blinky_gcc_nrf52.ld
@@ -238,3 +238,30 @@ SDK_CONFIG_FILE := ../config/sdk_config.h
 CMSIS_CONFIG_TOOL := $(SDK_ROOT)/external_tools/cmsisconfig/CMSIS_Configuration_Wizard.jar
 sdk_config:
 	java -jar $(CMSIS_CONFIG_TOOL) $(SDK_CONFIG_FILE)
+
+
+##########
+# JUMPER #
+##########
+
+emulator: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
+	jumper-cli generate -b _build/nrf52832_xxaa.bin
+
+emulator_gdb: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
+	jumper-cli generate -b _build/nrf52832_xxaa.bin -d
+
+start_emulator: emulator
+	jumper-cli run
+
+start_emulator_gdb: emulator_gdb
+	jumper-cli run -d
+
+.PHONY: start_emulator start_emulator_gdb
+
+test: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
+	./../../../../../../jumper-cli.sh generate;$(MAKE) -C ../../../test test
+
+
+#################
+# END OF JUMPER #
+#################
