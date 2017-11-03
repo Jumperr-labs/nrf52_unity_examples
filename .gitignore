@@ -235,8 +235,6 @@ package-lock.json
 
 sdk/env
 
-uart
-
 .project
 
 _build
