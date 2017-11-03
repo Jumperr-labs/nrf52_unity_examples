@@ -22,12 +22,12 @@ done
 #set -- "${POSITIONAL[@]}" # restore positional parameters
 
 if [ "${COMMAND}" == "generate" ]; then
-    if [ ! -d "$(pwd)/../../../../../../" ]; then
-        cd "$(pwd)/../../../../../../"
+    cd "$(pwd)/../../../../../../"
+    if [ ! -d "venv" ]; then
         virtualenv venv
         source venv/bin/activate
         pip install -r requirements.txt
         deactivate
-        cd "$(pwd)"
     fi
+    cd "$(pwd)"
 fi
