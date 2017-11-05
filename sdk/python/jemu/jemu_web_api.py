@@ -72,7 +72,12 @@ class JemuWebApi(object):
         res = requests.get(
             '{}/firmwares/{}/{}'.format(self._api_url, self._user_uid, filename),
             headers=headers)
+
+        print(res.status_code)
+        print(res.text)
         
+        res = requests.get(res.text)
+
         with open(local_filename, 'wb') as f:
             for chunk in res.iter_content(chunk_size=1024): 
                 if chunk: # filter out keep-alive new chunks
