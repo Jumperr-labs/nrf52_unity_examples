@@ -89,7 +89,7 @@ class JemuWebApi(object):
         fw_filename = str(int(calendar.timegm(time.gmtime()))) + '_' + fw_filename
         self.upload_file(fw_filename, fw_bin_data)
 
-        sys.stdout.write('Processing')
+        sys.stdout.write('Loading virtual device')
         sys.stdout.flush()
         status = 'Queded'
         while (status != 'Done'):
@@ -98,7 +98,7 @@ class JemuWebApi(object):
             sys.stdout.flush()
             sleep(0.25)
         
-        sys.stdout.write('100%\n')
+        sys.stdout.write(' Done\n')
         sys.stdout.flush()
 
         jemu_filename = os.path.splitext(fw_filename)[0]+'.jemu'

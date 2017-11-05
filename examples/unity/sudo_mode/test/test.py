@@ -14,9 +14,7 @@ class TestCLI(unittest.TestCase):
     def setUp(self):
         print(dir)
         self.jemu = Jemu(working_directory=dir)
-        print("Generating emulator")
         self.jemu.load(fw_bin)
-        print("Finished generating emulator")
 
     def tearDown(self):
         pass
