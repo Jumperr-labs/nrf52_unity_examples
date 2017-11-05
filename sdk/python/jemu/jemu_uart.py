@@ -56,7 +56,9 @@ class JemuUart(object):
         while data not in self._buffer:
             temp_data = self._uart_device.read(1024)
             self._buffer += temp_data
-            print(temp_data)
+            if (temp_data != ''):
+                print(temp_data)
+                
         tmp = self._buffer
         self._buffer = b''
         return tmp
