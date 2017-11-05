@@ -30,15 +30,19 @@ class JemuConnection:
     _COMMAND_START = "start"
 
     _LOG_LEVEL = logging.ERROR
+    _logger = logging.getLogger()
+    _logger.setLevel(_LOG_LEVEL)
     log_handler = logging.StreamHandler(sys.stdout)
     log_handler.setLevel(_LOG_LEVEL)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     log_handler.setFormatter(formatter)
+    _logger.addHandler(log_handler)
 
     def __init__(self, addr, port):
         self._addr = addr
         self._port = port
         self._conn = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self._conn.settimeout(0.3)
 
         self._callbacks = []
         self._thread = None
@@ -60,6 +64,7 @@ class JemuConnection:
             json_buff_string = self.recv_json()
             if json_buff_string is None:
                 break
+            self._logger.debug("received data: " + json_buff_string)
             json_pack = json.loads(json_buff_string)
             self.inform(json_pack)
         try:
@@ -99,6 +104,7 @@ class JemuConnection:
         return True
 
     def check_response(self,response_ack):
+        self._logger.debug("handshake response data: " + response_ack)
         response = json.loads(response_ack)
         message_type = response[self._TYPE]
         if message_type != self._RESPONSE:
@@ -110,8 +116,10 @@ class JemuConnection:
     def send_json(self, json_obj):
         data_to_send = json.dumps(json_obj)
         number_of_bytes = len(data_to_send.encode('utf-8'))
+        self._logger.debug("Number of byte of send data: " + str(number_of_bytes))
         number_to_send = struct.pack('!i', number_of_bytes)
         self.send(number_to_send)
+        self._logger.debug("Data to send: " + data_to_send)
         self.send(data_to_send)
 
     def send_handshake(self):
@@ -133,6 +141,7 @@ class JemuConnection:
         if data is None:
             return None
         buffer_size = struct.unpack("!i", data)[0]
+        self._logger.debug("Number of byte of received data: " + str(buffer_size))
         if buffer_size == 0:
             return None
         return self.receive(buffer_size)

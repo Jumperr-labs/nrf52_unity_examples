@@ -13,6 +13,19 @@ def generate(args):
     web_api = JemuWebApi()
     web_api.create_emulator(filename, args.bin.read(), emulator)
 
+def status(args):
+    filename = args.filename
+    web_api = JemuWebApi()
+    result = web_api.check_status(filename)
+    print(result.status_code)
+    print(result.text)
+
+def download(args):
+    filename = args.filename
+    local_filename = args.local_filename
+    web_api = JemuWebApi()
+    web_api.download_jemu(filename, local_filename)
+
 
 def main():
     parser = argparse.ArgumentParser(
@@ -30,10 +43,36 @@ def main():
         required=True
     )
 
+    status_parser = subparsers.add_parser('status', help='checks the status of a binary FW file')
+    status_parser.add_argument(
+        '--filename',
+        '-f',
+        help='File name of the Binary',
+        required=True
+    )
+
+    download_parser = subparsers.add_parser('download', help='download files from GCP')
+    download_parser.add_argument(
+        '--filename',
+        '-f',
+        help='File name of the Binary',
+        required=True
+    )
+    download_parser.add_argument(
+        '--local_filename',
+        '-l',
+        help='File name of the place to store the file',
+        required=True
+    )
+
     args = parser.parse_args()
-    print(args.bin.name)
+
     if args.command == 'generate':
         generate(args)
+    if args.command == 'status':
+        status(args)
+    if args.command == 'download':
+        download(args)
 
 
 if __name__ == '__main__':

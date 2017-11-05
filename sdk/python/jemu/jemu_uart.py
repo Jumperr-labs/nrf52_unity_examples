@@ -31,7 +31,7 @@ class JemuUart(object):
             raise Exception(self._uart_device_path +
                             ' not found or not symbolic link')
 
-        self._uart_device = serial.Serial(self._uart_device_path, 115200, rtscts=True, timeout=1)
+        self._uart_device = serial.Serial(self._uart_device_path, 115200, rtscts=True, timeout=0.1)
 
     def close(self):
         if self._uart_device:
