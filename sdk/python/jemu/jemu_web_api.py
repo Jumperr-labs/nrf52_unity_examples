@@ -2,8 +2,10 @@ from __future__ import print_function
 
 import os
 import stat
+import sys
 from time import sleep
-
+import calendar
+import time
 import requests
 
 API_URL = 'https://us-central1-jemu-web-app.cloudfunctions.net/api'
@@ -72,9 +74,6 @@ class JemuWebApi(object):
         res = requests.get(
             '{}/firmwares/{}/{}'.format(self._api_url, self._user_uid, filename),
             headers=headers)
-
-        print(res.status_code)
-        print(res.text)
         
         res = requests.get(res.text)
 
@@ -86,19 +85,20 @@ class JemuWebApi(object):
         return True
 
     def create_emulator(self, fw_filename, fw_bin_data, dest):
+        fw_filename = int(calendar.timegm(time.gmtime())) + '_' + fw_filename
         self.upload_file(fw_filename, fw_bin_data)
 
+        sys.stdout.write('Processing')
         status = 'Queded'
         while (status != 'Done'):
             status = self.check_status(fw_filename).text
-            print(status)
+            sys.stdout.write('.')
             sleep(0.25)
         
+        sys.stdout.write('100%\n')
+
         jemu_filename = os.path.splitext(fw_filename)[0]+'.jemu'
 
-        print(dest)
-        print(jemu_filename)
-        
         self.download_jemu(jemu_filename, dest)
 
         dest_st = os.stat(dest)

@@ -23,8 +23,9 @@ class Jemu(object):
     _jemu_build_dir = os.path.abspath(os.path.join(_transpiler_dir, 'emulator', '_build'))
     _jemu_bin_src = os.path.join(_jemu_build_dir, 'jemu')
 
-    def __init__(self, working_directory=None):
+    def __init__(self, working_directory=None, remote_mode=True):
         self._working_directory = os.path.abspath(working_directory) if working_directory else self._transpiler_dir
+        self._remote_mode = remote_mode
         self._jemu_process = None
         self._transpiler_cmd = ["node", "index.js", "--bin", ""]
         self._peripherals_json = os.path.join(self._working_directory, "peripherals.json")
@@ -37,8 +38,8 @@ class Jemu(object):
         self._jemu_connection = None
         self._peripherals_json_parser =JemuPeripheralsParser(os.path.join(self._working_directory, self._peripherals_json))
 
-        # Use this to get web API functionality instead of local transpiler
-        self._web_api = JemuWebApi()
+        if (remote_mode):
+            self._web_api = JemuWebApi()
 
     @property
     def uart(self):
@@ -56,18 +57,16 @@ class Jemu(object):
             setattr(self, peripheral["name"], button)
 
     def load(self, file_path):
-        #################################################
-        # Use this instead to get Web API functionality #
-        #################################################
-        filename = os.path.basename(file_path)
-        emulator_path = os.path.join(os.path.dirname(file_path), '{}.jemu'.format(filename))
-        with open(file_path, 'r') as data:
-            self._web_api.create_emulator(filename, data, self._jemu_bin)
-
-        # self._transpiler_cmd[3] = self._transpiler_cmd[3] + file_path
-        # subprocess.call(self._transpiler_cmd, cwd=self._transpiler_dir, stdout=open(os.devnull, 'w'), stderr=None)
-        # copyfile(self._jemu_bin_src, self._jemu_bin)
-        # copymode(self._jemu_bin_src, self._jemu_bin)
+        if (self._remote_mode):
+            filename = os.path.basename(file_path)
+            emulator_path = os.path.join(os.path.dirname(file_path), '{}.jemu'.format(filename))
+            with open(file_path, 'r') as data:
+                self._web_api.create_emulator(filename, data, self._jemu_bin)
+        else:
+            self._transpiler_cmd[3] = self._transpiler_cmd[3] + file_path
+            subprocess.call(self._transpiler_cmd, cwd=self._transpiler_dir, stdout=open(os.devnull, 'w'), stderr=None)
+            copyfile(self._jemu_bin_src, self._jemu_bin)
+            copymode(self._jemu_bin_src, self._jemu_bin)
 
     def start(self):
         if not os.path.isfile(self._jemu_bin):
