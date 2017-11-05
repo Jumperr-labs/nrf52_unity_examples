@@ -145,6 +145,5 @@ class Jemu(object):
         self.stop()
 
     def __del__(self):
-        pass
-        # if os.path.exists(self._jemu_bin):
-            # os.remove(self._jemu_bin)
+        if os.path.exists(self._jemu_bin):
+            os.remove(self._jemu_bin)
