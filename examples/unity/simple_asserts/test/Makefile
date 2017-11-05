@@ -1,4 +1,4 @@
 .PHONY: test
 
 test:
-	../../../../venv/bin/python -m nose --rednose -sv test.py --quiet
+	../../../../venv/bin/python -m nose --rednose -sv test.py --quiet --nologcapture
