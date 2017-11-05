@@ -62,7 +62,6 @@ class JemuWebApi(object):
             '{}/firmwares/{}/{}/status'.format(self._api_url, self._user_uid, filename),
             headers=headers
         )
-        res.raise_for_status()
         return res
 
     def download_jemu(self, filename, local_filename):
