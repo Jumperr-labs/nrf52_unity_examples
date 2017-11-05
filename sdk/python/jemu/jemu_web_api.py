@@ -88,13 +88,16 @@ class JemuWebApi(object):
         self.upload_file(fw_filename, fw_bin_data)
 
         sys.stdout.write('Processing')
+        sys.stdout.flush()
         status = 'Queded'
         while (status != 'Done'):
             status = self.check_status(fw_filename).text
             sys.stdout.write('.')
+            sys.stdout.flush()
             sleep(0.25)
         
         sys.stdout.write('100%\n')
+        sys.stdout.flush()
 
         jemu_filename = os.path.splitext(fw_filename)[0]+'.jemu'
 
