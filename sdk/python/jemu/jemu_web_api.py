@@ -7,6 +7,7 @@ from time import sleep
 import calendar
 import time
 import requests
+import logging
 
 API_URL = 'https://us-central1-jemu-web-app.cloudfunctions.net/api'
 
@@ -28,6 +29,7 @@ class JemuWebApi(object):
         self.init()
 
     def init(self):
+        logging.getLogger("requests").setLevel(logging.WARNING)
         res = requests.get(self._api_url + '/hello', headers=self._headers)
         try:
             res.raise_for_status()
