@@ -85,7 +85,7 @@ class JemuWebApi(object):
         return True
 
     def create_emulator(self, fw_filename, fw_bin_data, dest):
-        fw_filename = int(calendar.timegm(time.gmtime())) + '_' + fw_filename
+        fw_filename = str(int(calendar.timegm(time.gmtime()))) + '_' + fw_filename
         self.upload_file(fw_filename, fw_bin_data)
 
         sys.stdout.write('Processing')
