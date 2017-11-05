@@ -31,12 +31,12 @@ class JemuConnection:
 
     _LOG_LEVEL = logging.ERROR
     _logger = logging.getLogger()
-    _logger.setLevel(_LOG_LEVEL)
     log_handler = logging.StreamHandler(sys.stdout)
-    log_handler.setLevel(_LOG_LEVEL)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     log_handler.setFormatter(formatter)
     _logger.addHandler(log_handler)
+    _logger.setLevel(_LOG_LEVEL)
+    log_handler.setLevel(_LOG_LEVEL)
 
     def __init__(self, addr, port):
         self._addr = addr
