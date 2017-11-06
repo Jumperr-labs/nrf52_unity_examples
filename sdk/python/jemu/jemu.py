@@ -86,14 +86,14 @@ class Jemu(object):
         if (self._remote_mode):
             gen_new = True
 
-            new_signature = _get_file_signature(file_path)
+            new_signature = self._get_file_signature(file_path)
             
-            if os.path.isfile(sha1_cache_string):
-                prev_signature = _read_file_signature_backup()
+            if os.path.isfile(self._bin_file_sha1_cache_location):
+                prev_signature = self._read_file_signature_backup()
                 if (prev_signature == new_signature):
                     gen_new = False
 
-            _write_file_signature_backup(new_signature)
+            self._write_file_signature_backup(new_signature)
 
             if gen_new:
                 filename = os.path.basename(file_path)
