@@ -16,5 +16,4 @@ jemu.load(fw_bin)
 
 with jemu as j:
 	print('Virtual device is running')
-	while True:
-		j.uart.wait_until_uart_receives('----------------')
+	result = j.uart.wait_until_uart_receives('----------------')        
