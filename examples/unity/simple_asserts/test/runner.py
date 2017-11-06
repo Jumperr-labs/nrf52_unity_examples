@@ -17,6 +17,4 @@ jemu.load(fw_bin)
 with jemu as j:
 	print('Virtual device is running')
 	while True:
-		input = raw_input("Enter q to quite")
-		if (input == 'q'):
-			break
+		j.uart.read_line()
