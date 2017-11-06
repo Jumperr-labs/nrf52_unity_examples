@@ -306,7 +306,7 @@ start_emulator_gdb: emulator_gdb
 .PHONY: start_emulator start_emulator_gdb
 
 test: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	./../../../../../../jumper-cli.sh generate;$(MAKE) -C ../../../test test
+	./../../../../../../jumper-cli.sh generate;../../../../../../venv/bin/python ../../../test/test_runner.py
 
 
 #################
