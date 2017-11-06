@@ -2,6 +2,7 @@ from __future__ import print_function
 import os
 import subprocess
 import signal
+import hashlib
 from time import sleep
 from shutil import copyfile
 from shutil import copymode
@@ -36,6 +37,7 @@ class Jemu(object):
         self._uart = None
         self._jemu_gpio = None
         self._jemu_connection = None
+        self._bin_file_sha1_cache_location = "cache.sha1"
         self._peripherals_json_parser =JemuPeripheralsParser(os.path.join(self._working_directory, self._peripherals_json))
 
         if (remote_mode):
@@ -55,13 +57,48 @@ class Jemu(object):
         for peripheral in peripherals:
             button = JemuButton(self._jemu_connection, peripheral["id"])
             setattr(self, peripheral["name"], button)
+    
+    def _get_file_signature(self, file_path):
+        sha1 = hashlib.sha1()
+
+        with open(file_path, 'rb') as f:
+            while True:
+                data = f.read(65536)
+                if not data:
+                    break
+                sha1.update(data)
+
+        return sha1.hexdigest()
+
+    def _read_file_signature_backup(self):
+        data = ''
+        with open(self._bin_file_sha1_cache_location, 'r') as f:
+            data = f.read().replace('\n', '')
+        
+        return data
+
+    def _write_file_signature_backup(self, sha1_cache_string):
+        with open(self._bin_file_sha1_cache_location, 'w+') as f:
+            f.write(sha1_cache_string)
+        
 
     def load(self, file_path):
         if (self._remote_mode):
-            filename = os.path.basename(file_path)
-            emulator_path = os.path.join(os.path.dirname(file_path), '{}.jemu'.format(filename))
-            with open(file_path, 'r') as data:
-                self._web_api.create_emulator(filename, data, self._jemu_bin)
+            gen_new = True
+
+            new_signature = _get_file_signature(file_path)
+            
+            if os.path.isfile(sha1_cache_string):
+                prev_signature = _read_file_signature_backup()
+                if (prev_signature == new_signature):
+                    gen_new = False
+
+            _write_file_signature_backup(new_signature)
+
+            if gen_new:
+                filename = os.path.basename(file_path)
+                with open(file_path, 'r') as data:
+                    self._web_api.create_emulator(filename, data, self._jemu_bin)
         else:
             self._transpiler_cmd[3] = self._transpiler_cmd[3] + file_path
             subprocess.call(self._transpiler_cmd, cwd=self._transpiler_dir, stdout=open(os.devnull, 'w'), stderr=None)
@@ -144,5 +181,4 @@ class Jemu(object):
         self.stop()
 
     def __del__(self):
-        if os.path.exists(self._jemu_bin):
-            os.remove(self._jemu_bin)
+        pass
