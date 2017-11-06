@@ -9,7 +9,7 @@ import time
 import requests
 import logging
 
-API_URL = 'https://us-central1-jemu-web-app.cloudfunctions.net/api'
+API_URL = 'https://us-central1-jemu-web-app.cloudfunctions.net/api/v1'
 
 
 class AuthorizationError(Exception):
