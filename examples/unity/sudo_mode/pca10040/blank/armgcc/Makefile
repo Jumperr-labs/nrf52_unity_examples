@@ -298,7 +298,7 @@ sdk_config:
 ##########
 
 start_emulator: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	../../../../../../venv/bin/python ../../../test/runner.py
+	./../../../../../../jumper-cli.sh generate;../../../../../../venv/bin/python ../../../test/runner.py
 
 start_emulator_gdb: emulator_gdb
 	jumper-cli run -d
