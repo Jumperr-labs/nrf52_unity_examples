@@ -37,7 +37,7 @@ class Jemu(object):
         self._uart = None
         self._jemu_gpio = None
         self._jemu_connection = None
-        self._bin_file_sha1_cache_location = "cache.sha1"
+        self._bin_file_sha1_cache_extension = "cache.sha1"
         self._peripherals_json_parser =JemuPeripheralsParser(os.path.join(self._working_directory, self._peripherals_json))
 
         if (remote_mode):
@@ -70,33 +70,33 @@ class Jemu(object):
 
         return sha1.hexdigest()
 
-    def _read_file_signature_backup(self):
+    def _read_file_signature_backup(self, filename):
         data = ''
-        with open(self._bin_file_sha1_cache_location, 'r') as f:
-            data = f.read().replace('\n', '')
+        cache_file_location = filename + self._bin_file_sha1_cache_extension
+        if os.path.isfile(cache_file_location):
+            with open(cache_file_location, 'r') as f:
+                data = f.read().replace('\n', '')
         
         return data
 
-    def _write_file_signature_backup(self, sha1_cache_string):
-        with open(self._bin_file_sha1_cache_location, 'w+') as f:
+    def _write_file_signature_backup(self, sha1_cache_string, filename):
+        with open(filename + self._bin_file_sha1_cache_extension, 'w+') as f:
             f.write(sha1_cache_string)
         
 
     def load(self, file_path):
         if (self._remote_mode):
+            filename = os.path.basename(file_path)
             gen_new = True
-
             new_signature = self._get_file_signature(file_path)
             
-            if os.path.isfile(self._bin_file_sha1_cache_location):
-                prev_signature = self._read_file_signature_backup()
-                if (prev_signature == new_signature):
-                    gen_new = False
+            prev_signature = self._read_file_signature_backup(filename)
+            if (prev_signature == new_signature):
+                gen_new = False
 
-            self._write_file_signature_backup(new_signature)
+            self._write_file_signature_backup(new_signature, filename)
 
             if gen_new:
-                filename = os.path.basename(file_path)
                 with open(file_path, 'r') as data:
                     self._web_api.create_emulator(filename, data, self._jemu_bin)
         else:
