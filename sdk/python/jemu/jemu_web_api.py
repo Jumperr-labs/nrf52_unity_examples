@@ -12,6 +12,8 @@ import calendar
 import time
 import requests
 import logging
+import zipfile
+from shutil import move
 
 API_URL = 'https://us-central1-jemu-web-app.cloudfunctions.net/api/v1'
 
@@ -81,12 +83,20 @@ class JemuWebApi(object):
             headers=headers)
         
         res = requests.get(res.text)
+        zip_filename = local_filename + '.zip'
 
-        with open(local_filename, 'wb') as f:
+        with open(zip_filename, 'wb') as f:
             for chunk in res.iter_content(chunk_size=1024): 
                 if chunk: # filter out keep-alive new chunks
                     f.write(chunk)
-                    
+
+        zip_ref = zipfile.ZipFile(zip_filename, 'r')
+        zip_ref.extractall()
+        zip_ref.close()
+
+        move(os.path.dirname(zip_filename) + '/zipped_jemu', local_filename)
+        os.remove(zip_filename)
+
         return True
 
     def create_emulator(self, fw_filename, fw_bin_data, dest):
