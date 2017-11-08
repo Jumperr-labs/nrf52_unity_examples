@@ -29,4 +29,36 @@ SECTIONS
   } > FLASH
 } INSERT AFTER .text
 
+SECTIONS
+{
+  .mem_section_dummy_rom :
+  {
+  }
+    .log_const_data :
+  {
+    PROVIDE(__start_log_const_data = .);
+    KEEP(*(.log_const_data))
+    PROVIDE(__stop_log_const_data = .);
+  } > FLASH
+  
+
+} INSERT AFTER .text
+
+
+SECTIONS
+{
+  . = ALIGN(4);
+  .mem_section_dummy_ram :
+  {
+  }
+  .log_dynamic_data :
+  {
+    PROVIDE(__start_log_dynamic_data = .);
+    KEEP(*(.log_dynamic_data))
+    PROVIDE(__stop_log_dynamic_data = .);
+  } > RAM
+
+} INSERT AFTER .data;
+
+
 INCLUDE "nrf5x_common.ld"
