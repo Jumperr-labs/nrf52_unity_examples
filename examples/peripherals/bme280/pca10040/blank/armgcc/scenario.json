@@ -1,0 +1,11 @@
+{
+    "DataGenerators": [
+        {
+            "id": 1,
+            "type": "File",
+            "config": {
+                "path": "bme_test_data"
+            }
+        }
+    ]
+}
