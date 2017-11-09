@@ -1,0 +1,260 @@
+{
+	"EmulatorConfiguration": [
+		{
+			"peripheralsPort": 8000
+		}
+	],
+
+	"ModelConfigurations": [
+		{
+			"name": "RADIO",
+			"config": {
+				"role": "slave",
+				"ip": "127.0.0.1",
+				"port": 41000
+			}
+		}
+	],
+	"FlashConfigurations": [
+		{
+			"loadBleHack": false
+		}
+	],
+	"Peripherals": [
+		{
+			"name": "ResetButton",
+			"id": 2,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 21
+			}
+		},
+		{
+			"name": "BUTTON_1",
+			"id": 3,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 13
+			}
+		},
+		{
+			"name": "BUTTON_2",
+			"id": 4,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 14
+			}
+		},
+		{
+			"name": "BUTTON_3",
+			"id": 5,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 15
+			}
+		},
+		{
+			"name": "BUTTON_4",
+			"id": 6,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 16
+			}
+		},
+		{
+			"name": "SHORT_0",
+			"id": 7,
+			"type": "Peripheral",
+			"class": "Short",
+			"config": {
+				"pin0": 2,
+				"pin1": 4
+			}
+		},
+		{
+			"name": "BME280Device",
+			"id": 9,
+			"type": "Peripheral",
+			"class": "BME280",
+			"config": {
+				"sda": 26,
+				"scl": 27,
+				"bmeTemperatureGenerator": 1,
+                "bmeHumidityGenerator": 2
+			}
+		}
+	],
+	"DeviceConfiguration": [
+		{
+			"_description": "set the fCODEPAGESIZE in the FICR (0x10000010)",
+			"address": 268435472,
+			"value": 4096
+		},
+		{
+			"_description": "set the CODESIZE in the FICR (0x10000014)",
+			"address": 268435476,
+			"value": 128
+		},
+		{
+			"_description": "set the first 32 bits of the MAC address in the FICR (0x100000A4)",
+			"address": 268435620,
+			"value": 2946736263
+		},
+		{
+			"_description" : "set the last 16 bits of the MAC address in the FICR (0x100000A8)",
+			"address": 268435624,
+			"value": 1489237561
+		},
+		{
+			"_description" : "Encryption Root, word 0 in the FICR (0x10000080)",
+			"address": 268435584,
+			"value": 3597134306
+		},
+		{
+			"_description" : "Encryption Root, word 1 in the FICR (0x10000084)",
+			"address": 268435588,
+			"value": 1576681794
+		},
+		{
+			"_description" : "Encryption Root, word 2 in the FICR (0x10000088)",
+			"address": 268435592,
+			"value": 71665143
+		},
+		{
+			"_description" : "Encryption Root, word 3 in the FICR (0x1000008C)",
+			"address": 268435596,
+			"value": 1642787530
+		},
+		{
+			"_description" : "Identity Root, word 0 in the FICR (0x10000090)",
+			"address": 268435600,
+			"value": 1586082968
+		},
+		{
+			"_description" : "Identity Root, word 1 in the FICR (0x10000094)",
+			"address": 268435604,
+			"value": 4095099349
+		},
+		{
+			"_description" : "Identity Root, word 2 in the FICR (0x10000098)",
+			"address": 268435608,
+			"value": 3075251654
+		},
+		{
+			"_description" : "Identity Root, word 3 in the FICR (0x1000009C)",
+			"address": 268435612,
+			"value": 290890659
+		},
+		{
+			"_description" : "Errata 31 related in FICR",
+			"address": 268436036,
+			"value": 1520522973
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436484,
+			"value": 4294964000
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436488,
+			"value": 4294964035
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436492,
+			"value": 4294964061
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436496,
+			"value": 4294964224
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436500,
+			"value": 4294964306
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436504,
+			"value": 4294964091
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436508,
+			"value": 4294918092
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436512,
+			"value": 4294918040
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436516,
+			"value": 4294918040
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436520,
+			"value": 4294901778
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436524,
+			"value": 4294901837
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436528,
+			"value": 4294917648
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436532,
+			"value": 4294967266
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436536,
+			"value": 4294967040
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436540,
+			"value": 4294967060
+		},
+
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436544,
+			"value": 4294967065
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436548,
+			"value": 4294967120
+		},
+		{
+			"_description" : "Errata 108",
+			"address": 268436056,
+			"value": 4294967295
+		},
+		{
+			"_description" : "Errata 108",
+			"address": 268440064,
+			"value": 21
+		},
+		{
+			"_description" : "Errata 108",
+			"address": 268440068,
+			"value": 21
+		}
+	]
+}
