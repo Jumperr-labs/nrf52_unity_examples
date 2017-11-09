@@ -13,8 +13,7 @@ import time
 import requests
 import logging
 
-API_URL = 'https://us-central1-jemu-web-app.cloudfunctions.net/api/v1'
-
+API_URL = os.environ['JUMPER_API'] if 'JUMPER_API' in os.environ else 'https://us-central1-jemu-web-app.cloudfunctions.net/api/v1'
 
 class AuthorizationError(Exception):
     pass
