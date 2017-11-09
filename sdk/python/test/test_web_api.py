@@ -6,7 +6,7 @@ from __future__ import print_function
 
 import unittest
 
-from ..jemu.jemu_web_api import JemuWebApi, UnInitializedError
+from jemu.jemu_web_api import JemuWebApi, UnInitializedError
 
 
 class TestWebApi(unittest.TestCase):
@@ -25,4 +25,4 @@ class TestWebApi(unittest.TestCase):
             self.api.upload_file('test_file', b'SOME_BINARY_DATA')
 
     def test_upload_file(self):
-        self.api.upload_file('test_file', b'SOME_BINARY_DATA')
+        self.api.upload_file('test_file.bin', b'SOME_BINARY_DATA')

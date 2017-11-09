@@ -10,6 +10,8 @@ import hashlib
 from time import sleep
 from shutil import copyfile
 from shutil import copymode
+import json
+
 import timeout_decorator
 
 from .jemu_uart import JemuUart
@@ -19,7 +21,14 @@ from .jemu_gpio import JemuGpio
 from .jemu_connection import JemuConnection
 from .jemu_web_api import JemuWebApi
 
+DEFAULT_CONFIG = os.path.join(os.path.expanduser('~'), '.jumper', 'config.json')
+
+
 class EmulationError(Exception):
+    pass
+
+
+class FileNotFoundError(Exception):
     pass
 
 
@@ -28,10 +37,10 @@ class Jemu(object):
     _jemu_build_dir = os.path.abspath(os.path.join(_transpiler_dir, 'emulator', '_build'))
     _jemu_bin_src = os.path.join(_jemu_build_dir, 'jemu')
 
-    def __init__(self, working_directory=None, remote_mode=True, gdb_mode=False):
+    def __init__(self, working_directory=None, config_file=None, gdb_mode=False, remote_mode=True):
         self._working_directory = os.path.abspath(working_directory) if working_directory else self._transpiler_dir
         self._remote_mode = remote_mode
-	self._gdb_mode = gdb_mode
+        self._gdb_mode = gdb_mode
         self._jemu_process = None
         self._transpiler_cmd = ["node", "index.js", "--bin", ""]
         self._peripherals_json = os.path.join(self._working_directory, "peripherals.json")
@@ -43,10 +52,26 @@ class Jemu(object):
         self._jemu_gpio = None
         self._jemu_connection = None
         self._bin_file_sha1_cache_extension = "cache.sha1"
-        self._peripherals_json_parser =JemuPeripheralsParser(os.path.join(self._working_directory, self._peripherals_json))
+        self._peripherals_json_parser = \
+            JemuPeripheralsParser(os.path.join(self._working_directory, self._peripherals_json))
 
-        if (remote_mode):
-            self._web_api = JemuWebApi()
+        token = None
+
+        if config_file:
+            if not os.path.isfile(config_file):
+                raise FileNotFoundError('Config file not found at: {}'.format(os.path.abspath(config_file)))
+        else:
+            if os.path.isfile(DEFAULT_CONFIG):
+                config_file = DEFAULT_CONFIG
+
+        if config_file:
+            with open(config_file) as config_data:
+                config = json.load(config_data)
+            if 'token' in config:
+                token = config['token']
+
+        if remote_mode:
+            self._web_api = JemuWebApi(jumper_token=token)
 
     @property
     def uart(self):
@@ -63,7 +88,8 @@ class Jemu(object):
             button = JemuButton(self._jemu_connection, peripheral["id"])
             setattr(self, peripheral["name"], button)
     
-    def _get_file_signature(self, file_path):
+    @staticmethod
+    def _get_file_signature(file_path):
         sha1 = hashlib.sha1()
 
         with open(file_path, 'rb') as f:
@@ -87,7 +113,6 @@ class Jemu(object):
     def _write_file_signature_backup(self, sha1_cache_string, filename):
         with open(filename + self._bin_file_sha1_cache_extension, 'w+') as f:
             f.write(sha1_cache_string)
-        
 
     def load(self, file_path):
         if (self._remote_mode):
@@ -115,58 +140,58 @@ class Jemu(object):
             raise Exception(self._jemu_bin + ' is not found')
         elif not os.access(self._jemu_bin, os.X_OK):
             raise Exception(self._jemu_bin + ' is not executable')
-        else:
-            self._uart = JemuUart(self._uart_device_path)
-            self._uart.remove()
-            self._jemu_connection = JemuConnection(self._jemu_server_address, self._jemu_server_port)
-            self._jemu_gpio = JemuGpio(self._jemu_connection)
 
-            jemu_cmd = self._jemu_bin + " -w"
-	    if self._gdb_mode:
-		jemu_cmd += " -g"
-            self._jemu_process = subprocess.Popen(
-                jemu_cmd,
-                cwd=self._working_directory,
-                shell=True,
-                stdin=None,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.STDOUT,
-                close_fds=True,
-                preexec_fn=os.setsid
-            )
-            sleep(0.3)
+        self._uart = JemuUart(self._uart_device_path)
+        self._uart.remove()
+        self._jemu_connection = JemuConnection(self._jemu_server_address, self._jemu_server_port)
+        self._jemu_gpio = JemuGpio(self._jemu_connection)
 
-            @timeout_decorator.timeout(3)
-            def wait_for_uart():
-                while not os.path.exists(self._uart_device_path):
-                    sleep(0.1)
+        jemu_cmd = self._jemu_bin + " -w"
+        if self._gdb_mode:
+            jemu_cmd += " -g"
 
-            try:
-                wait_for_uart()
-            except timeout_decorator.TimeoutError:
-                self.stop()
-                raise EmulationError
+        self._jemu_process = subprocess.Popen(
+            jemu_cmd,
+            cwd=self._working_directory,
+            shell=True,
+            stdin=None,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,
+            close_fds=True,
+            preexec_fn=os.setsid
+        )
+        sleep(0.3)
 
-            self._uart.open()
+        @timeout_decorator.timeout(3)
+        def wait_for_uart():
+            while not os.path.exists(self._uart_device_path):
+                sleep(0.1)
 
+        try:
+            wait_for_uart()
+        except timeout_decorator.TimeoutError:
+            self.stop()
+            raise EmulationError
 
-            @timeout_decorator.timeout(3)
-            def wait_for_connection():
-                while not self._jemu_connection.connect():
-                    sleep(0.1)
+        self._uart.open()
 
-            try:
-                wait_for_connection()
-            except timeout_decorator.TimeoutError:
-                self.stop()
-                raise EmulationError
+        @timeout_decorator.timeout(3)
+        def wait_for_connection():
+            while not self._jemu_connection.connect():
+                sleep(0.1)
 
-            if not self._jemu_connection.handshake():
-                raise EmulationError
+        try:
+            wait_for_connection()
+        except timeout_decorator.TimeoutError:
+            self.stop()
+            raise EmulationError
 
-            self._jemu_connection.start()
+        if not self._jemu_connection.handshake():
+            raise EmulationError
 
-            self._build_peripherals_methods()
+        self._jemu_connection.start()
+
+        self._build_peripherals_methods()
 
     def stop(self):
         self._jemu_connection.close()

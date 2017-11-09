@@ -5,7 +5,6 @@
 from __future__ import print_function
 
 import os
-import stat
 import sys
 from time import sleep
 import calendar
@@ -13,7 +12,9 @@ import time
 import requests
 import logging
 
-API_URL = os.environ['JUMPER_API'] if 'JUMPER_API' in os.environ else 'https://us-central1-jemu-web-app.cloudfunctions.net/api/v1'
+API_URL = os.environ['JUMPER_API'] if 'JUMPER_API' in os.environ \
+    else 'https://us-central1-jemu-web-app.cloudfunctions.net/api/v1'
+
 
 class AuthorizationError(Exception):
     pass
@@ -24,9 +25,9 @@ class UnInitializedError(Exception):
 
 
 class JemuWebApi(object):
-    def __init__(self, api_url=API_URL, jemu_token=None):
+    def __init__(self, jumper_token=None, api_url=API_URL):
         self._api_url = api_url
-        self._token = jemu_token or os.environ['JUMPER_TOKEN']
+        self._token = jumper_token or os.environ['JUMPER_TOKEN']
         self._headers = {'Authorization': 'Bearer ' + self._token}
         self._user_uid = None
         self.init()
@@ -108,5 +109,5 @@ class JemuWebApi(object):
 
         self.download_jemu(jemu_filename, dest)
 
-        dest_st = os.stat(dest)
+        # dest_st = os.stat(dest)
         os.chmod(dest, 0o777)
