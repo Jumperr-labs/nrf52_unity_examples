@@ -28,9 +28,10 @@ class Jemu(object):
     _jemu_build_dir = os.path.abspath(os.path.join(_transpiler_dir, 'emulator', '_build'))
     _jemu_bin_src = os.path.join(_jemu_build_dir, 'jemu')
 
-    def __init__(self, working_directory=None, remote_mode=True):
+    def __init__(self, working_directory=None, remote_mode=True, gdb_mode=False):
         self._working_directory = os.path.abspath(working_directory) if working_directory else self._transpiler_dir
         self._remote_mode = remote_mode
+	self._gdb_mode = gdb_mode
         self._jemu_process = None
         self._transpiler_cmd = ["node", "index.js", "--bin", ""]
         self._peripherals_json = os.path.join(self._working_directory, "peripherals.json")
@@ -121,6 +122,8 @@ class Jemu(object):
             self._jemu_gpio = JemuGpio(self._jemu_connection)
 
             jemu_cmd = self._jemu_bin + " -w"
+	    if self._gdb_mode:
+		jemu_cmd += " -g"
             self._jemu_process = subprocess.Popen(
                 jemu_cmd,
                 cwd=self._working_directory,
