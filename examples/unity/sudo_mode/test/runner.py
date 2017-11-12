@@ -6,7 +6,7 @@ fw_bin = os.path.join(dir, '..', 'pca10040', 'blank', 'armgcc', '_build', 'nrf52
 config_file = os.path.join(dir, '..', '..', '..', '..', 'jumper_config.json')
 
 print(dir)
-jemu = Jemu(working_directory=dir, config_file=config_file)
+jemu = Jemu(working_directory=dir, config_file=config_file, sudo_mode=True)
 jemu.load(fw_bin)
 
 with jemu as j:
