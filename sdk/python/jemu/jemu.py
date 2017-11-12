@@ -37,10 +37,11 @@ class Jemu(object):
     _jemu_build_dir = os.path.abspath(os.path.join(_transpiler_dir, 'emulator', '_build'))
     _jemu_bin_src = os.path.join(_jemu_build_dir, 'jemu')
 
-    def __init__(self, working_directory=None, config_file=None, gdb_mode=False, remote_mode=True):
+    def __init__(self, working_directory=None, config_file=None, gdb_mode=False, remote_mode=True, sudo_mode=False):
         self._working_directory = os.path.abspath(working_directory) if working_directory else self._transpiler_dir
         self._remote_mode = remote_mode
         self._gdb_mode = gdb_mode
+        self._sudo_mode = sudo_mode
         self._jemu_process = None
         self._transpiler_cmd = ["node", "index.js", "--bin", ""]
         self._peripherals_json = os.path.join(self._working_directory, "peripherals.json")
@@ -105,8 +106,11 @@ class Jemu(object):
         data = ''
         cache_file_location = filename + self._bin_file_sha1_cache_extension
         if os.path.isfile(cache_file_location):
-            with open(cache_file_location, 'r') as f:
-                data = f.read().replace('\n', '')
+            if os.path.isfile(self._jemu_bin):
+                with open(cache_file_location, 'r') as f:
+                    data = f.read().replace('\n', '')
+            else:
+                os.remove(cache_file_location)
         
         return data
 
@@ -124,11 +128,12 @@ class Jemu(object):
             if (prev_signature == new_signature):
                 gen_new = False
 
-            self._write_file_signature_backup(new_signature, filename)
-
             if gen_new:
                 with open(file_path, 'r') as data:
                     self._web_api.create_emulator(filename, data, self._jemu_bin)
+                    if (os.path.isfile(self._jemu_bin)):
+                        self._write_file_signature_backup(new_signature, filename)
+
         else:
             self._transpiler_cmd[3] = self._transpiler_cmd[3] + file_path
             subprocess.call(self._transpiler_cmd, cwd=self._transpiler_dir, stdout=open(os.devnull, 'w'), stderr=None)
@@ -149,6 +154,8 @@ class Jemu(object):
         jemu_cmd = self._jemu_bin + " -w"
         if self._gdb_mode:
             jemu_cmd += " -g"
+        if self._sudo_mode:
+            jemu_cmd += " -s"
 
         self._jemu_process = subprocess.Popen(
             jemu_cmd,
