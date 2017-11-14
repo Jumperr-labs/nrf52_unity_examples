@@ -298,10 +298,10 @@ sdk_config:
 ##########
 
 start_emulator: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	python ../../../test/runner.py
+	jumper run --directory ../../../test/ --bin _build/nrf52832_xxaa.bin --sudo
 
 start_emulator_gdb: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	python ../../../test/gdb_runner.py
+	jumper run --directory ../../../test/ --bin _build/nrf52832_xxaa.bin --sudo --gdb
  
 .PHONY: start_emulator start_emulator_gdb
 

@@ -1,5 +1,4 @@
 # nrf52_unity_examples
-
 Please head to https://jumper.io for instructions on how to use this repo.
 
 ## License
