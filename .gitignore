@@ -253,6 +253,8 @@ jemu
 uart
 !uart/
 
+*.cache.sha1
+
 ###########################
 # END OF PROJECT SPECIFIC #
 ###########################
