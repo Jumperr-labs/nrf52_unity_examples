@@ -245,15 +245,15 @@ sdk_config:
 ##########
 
 start_emulator: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	./../../../../../../jumper-cli.sh generate;../../../../../../venv/bin/python ../../../test/runner.py
+	jumper run --directory ../../../test/ --bin _build/nrf52832_xxaa.bin
 
 start_emulator_gdb: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	./../../../../../../jumper-cli.sh generate;../../../../../../venv/bin/python ../../../test/gdb_runner.py
+	jumper run --directory ../../../test/ --bin _build/nrf52832_xxaa.bin --gdb
  
 .PHONY: start_emulator start_emulator_gdb
 
 test: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	./../../../../../../jumper-cli.sh generate;../../../../../../venv/bin/python ../../../test/test_runner.py
+	python ../../../test/test_runner.py
 
 
 #################

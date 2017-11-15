@@ -1,4 +1,0 @@
-Jumper Logging Agent
-Copyright 2017 Jumper Labs LTD.
-
-This product includes software developed at Jumper Labs LTD.

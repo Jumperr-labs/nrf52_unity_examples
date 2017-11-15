@@ -1,14 +1,13 @@
 import os
-from jemu import Jemu
+from jumper.vlab import Vlab
 
 dir = os.path.dirname(os.path.abspath(__file__))
 fw_bin = os.path.join(dir, '..', 'pca10040', 'blank', 'armgcc', '_build', 'nrf52832_xxaa.bin')
-config_file = os.path.join(dir, '..', '..', '..', '..', 'jumper_config.json')
 
 print(dir)
-jemu = Jemu(working_directory=dir, config_file=config_file, sudo_mode=True)
-jemu.load(fw_bin)
+vlab = Vlab(working_directory=dir, sudo_mode=True)
+vlab.load(fw_bin)
 
-with jemu as j:
+with vlab as v:
     print('Virtual device is running')
-    result = j.uart.wait_until_uart_receives('----------------')
+    result = v.uart.wait_until_uart_receives('----------------')
