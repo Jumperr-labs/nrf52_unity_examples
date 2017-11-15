@@ -275,10 +275,6 @@ start_emulator_gdb: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
  
 .PHONY: start_emulator start_emulator_gdb
 
-test: $(OUTPUT_DIRECTORY)/nrf52832_xxaa.bin
-	$(MAKE) -C ../../../test
-
-
 #################
 # END OF JUMPER #
 #################
