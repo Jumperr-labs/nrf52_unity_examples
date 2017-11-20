@@ -1,0 +1,18 @@
+{
+    "DataGenerators": [
+        {
+            "id": 1,
+            "type": "File",
+            "config": {
+                "path": "bme_temperature_data"
+            }
+        },
+        {
+            "id": 2,
+            "type": "File",
+            "config": {
+                "path": "bme_humidity_data"
+            }
+        }
+    ]
+}
