@@ -22,6 +22,46 @@
 	],
 	"Peripherals": [
 		{
+			"name": "nrf52",
+			"id": 0,
+			"type": "MCU",
+			"class": "MCU",
+			"config": {
+				"0": 0,
+				"1": 1,
+				"2": 2,
+				"3": 3,
+				"4": 4,
+				"5": 5,
+				"6": 6,
+				"7": 7,
+				"8": 8,
+				"9": 9,
+				"10": 10,
+				"11": 11,
+				"12": 12,
+				"13": 13,
+				"14": 14,
+				"15": 15,
+				"16": 16,
+				"17": 17,
+				"18": 18,
+				"19": 19,
+				"20": 20,
+				"21": 21,
+				"22": 22,
+				"23": 23,
+				"24": 24,
+				"25": 25,
+				"26": 26,
+				"27": 27,
+				"28": 28,
+				"29": 29,
+				"30": 30,
+				"31": 31
+			}
+		},
+		{
 			"name": "ResetButton",
 			"id": 2,
 			"type": "Peripheral",
@@ -31,7 +71,7 @@
 			}
 		},
 		{
-			"name": "BUTTON_1",
+			"name": "BUTTON1",
 			"id": 3,
 			"type": "Peripheral",
 			"class": "Button",
@@ -40,7 +80,7 @@
 			}
 		},
 		{
-			"name": "BUTTON_2",
+			"name": "BUTTON2",
 			"id": 4,
 			"type": "Peripheral",
 			"class": "Button",
@@ -49,7 +89,7 @@
 			}
 		},
 		{
-			"name": "BUTTON_3",
+			"name": "BUTTON3",
 			"id": 5,
 			"type": "Peripheral",
 			"class": "Button",
@@ -58,7 +98,7 @@
 			}
 		},
 		{
-			"name": "BUTTON_4",
+			"name": "BUTTON4",
 			"id": 6,
 			"type": "Peripheral",
 			"class": "Button",
@@ -244,5 +284,204 @@
 			"address": 268440068,
 			"value": 21
 		}
-	]
+	],
+	"InternalsPeripherals" : {
+		"nrf52": [
+			{
+				"class": "Flash",
+				"id": 1,
+				"type": "Peripheral"
+			},
+			{
+				"class": "Data RAM",
+				"id": 2,
+				"type": "Peripheral"
+			},
+			{
+				"class": "ITM",
+				"id": 3,
+				"type": "Peripheral"
+			},
+			{
+				"class": "DWT",
+				"id": 4,
+				"type": "Peripheral"
+			},
+			{
+				"class": "FPB",
+				"id": 5,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TPIU",
+				"id": 6,
+				"type": "Peripheral"
+			},
+			{
+				"class": "ETM",
+				"id": 7,
+				"type": "Peripheral"
+			},
+			{
+				"class": "System",
+				"id": 8,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SystemControlBlock",
+				"id": 9,
+				"type": "Peripheral"
+			},
+			{
+				"class": "Register_router",
+				"id": 10,
+				"type": "Peripheral"
+			},
+			{
+				"class": "P0",
+				"id": 11,
+				"type": "Peripheral"
+			},
+			{
+				"class": "GPIOTE",
+				"id": 12,
+				"type": "Peripheral"
+			},
+			{
+				"class": "UICR",
+				"id": 13,
+				"type": "Peripheral"
+			},
+			{
+				"class": "FICR",
+				"id": 14,
+				"type": "Peripheral"
+			},
+			{
+				"class": "UARTE",
+				"id": 15,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TIMER",
+				"id": 16,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TIMER1",
+				"id": 17,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TIMER2",
+				"id": 18,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RADIO",
+				"id": 19,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RNG",
+				"id": 20,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SPIM_TWIM",
+				"id": 21,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SPIM_TWIM1",
+				"id": 22,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SPIM_TWIM2",
+				"id": 23,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TEMP",
+				"id": 24,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RTC",
+				"id": 25,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RTC1",
+				"id": 26,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RTC2",
+				"id": 27,
+				"type": "Peripheral"
+			},
+			{
+				"class": "WDT",
+				"id": 28,
+				"type": "Peripheral"
+			},
+			{
+				"class": "MWU",
+				"id": 29,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PPI",
+				"id": 30,
+				"type": "Peripheral"
+			},
+			{
+				"class": "LPCOMP",
+				"id": 31,
+				"type": "Peripheral"
+			},
+			{
+				"class": "ECB",
+				"id": 32,
+				"type": "Peripheral"
+			},
+			{
+				"class": "CCM",
+				"id": 33,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SAADC",
+				"id": 34,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PWM",
+				"id": 35,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PWM1",
+				"id": 36,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PWM2",
+				"id": 37,
+				"type": "Peripheral"
+			},
+			{
+				"class": "POWER_CLOCK",
+				"id": 38,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SUDO",
+				"id": 39,
+				"type": "Peripheral"
+			}
+		]
+	}
 }

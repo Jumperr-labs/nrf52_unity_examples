@@ -54,24 +54,24 @@
 #include "bsp.h"
 #include "app_timer.h"
 #include "app_error.h"
-#include "nrf_drv_wdt.h"
+// #include "nrf_drv_wdt.h"
 #include "nrf_drv_clock.h"
 #include "nrf_delay.h"
 #include "app_util_platform.h"
 
-#define FEED_BUTTON_ID          0                           /**< Button for feeding the dog. */
+// #define FEED_BUTTON_ID          0                           /**< Button for feeding the dog. */
 
-nrf_drv_wdt_channel_id m_channel_id;
+// nrf_drv_wdt_channel_id m_channel_id;
 
 /**
  * @brief WDT events handler.
  */
-void wdt_event_handler(void)
-{
-    bsp_board_leds_off();
+// void wdt_event_handler(void)
+// {
+//     bsp_board_leds_off();
 
-    //NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
-}
+//     //NOTE: The max amount of time we can spend in WDT interrupt is two cycles of 32768[Hz] clock - after that, reset occurs
+// }
 
 /**
  * @brief Assert callback.
@@ -96,7 +96,8 @@ void bsp_event_callback(bsp_event_t event)
     switch (event)
     {
         case BSP_EVENT_KEY_0:
-            nrf_drv_wdt_channel_feed(m_channel_id);
+            // nrf_drv_wdt_channel_feed(m_channel_id);
+            bsp_board_led_on(0);
             break;
 
         default :
@@ -111,6 +112,9 @@ void bsp_event_callback(bsp_event_t event)
 int main(void)
 {
     uint32_t err_code = NRF_SUCCESS;
+    
+    //Configure all LEDs on board.
+    bsp_board_leds_init();
 
     //BSP configuration for button support: button pushing will feed the dog.
     err_code = nrf_drv_clock_init();
@@ -123,25 +127,21 @@ int main(void)
     err_code = bsp_init(BSP_INIT_BUTTONS, bsp_event_callback);
     APP_ERROR_CHECK(err_code);
 
-    //Configure all LEDs on board.
-    bsp_board_leds_init();
-
     //Configure WDT.
-    nrf_drv_wdt_config_t config = NRF_DRV_WDT_DEAFULT_CONFIG;
-    err_code = nrf_drv_wdt_init(&config, wdt_event_handler);
-    APP_ERROR_CHECK(err_code);
-    err_code = nrf_drv_wdt_channel_alloc(&m_channel_id);
-    APP_ERROR_CHECK(err_code);
-    nrf_drv_wdt_enable();
+    // nrf_drv_wdt_config_t config = NRF_DRV_WDT_DEAFULT_CONFIG;
+    // err_code = nrf_drv_wdt_init(&config, wdt_event_handler);
+    // APP_ERROR_CHECK(err_code);
+    // err_code = nrf_drv_wdt_channel_alloc(&m_channel_id);
+    // APP_ERROR_CHECK(err_code);
+    // nrf_drv_wdt_enable();
 
     //Indicate program start on LEDs.
-    for (uint32_t i = 0; i < LEDS_NUMBER; i++)
-    {   nrf_delay_ms(200);
-        bsp_board_led_on(i);
-    }
+    // for (uint32_t i = 0; i < LEDS_NUMBER; i++)
+    // {   nrf_delay_ms(200);
+    //     bsp_board_led_on(i);
+    // }
      err_code = bsp_buttons_enable();
      APP_ERROR_CHECK(err_code);
-
     while (1)
     {
         __SEV();
