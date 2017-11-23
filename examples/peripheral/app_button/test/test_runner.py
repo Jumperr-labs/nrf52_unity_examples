@@ -8,9 +8,8 @@ fw_bin = os.path.join(dir, '..', 'pca10040', 'blank', 'armgcc', '_build', 'nrf52
 
 
 class TestAppButton(unittest.TestCase):
-
-    def pins_listener(self, pin_event):
-        if pin_event[self.vlab.pin_number] == 17 and pin_event[self.vlab.pin_level] == 0:
+    def pins_listener(self, pin_number, pin_level):
+        if pin_number == 17 and pin_level == 0:
             self.is_led_on = True
 
     def setUp(self):
