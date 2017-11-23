@@ -252,6 +252,7 @@ jemu
 !jemu/
 uart
 !uart/
+*.cache.sha1
 
 *.cache.sha1
 
