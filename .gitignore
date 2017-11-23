@@ -181,12 +181,12 @@ venv.bak/
 # C++ #
 #######
 # Prerequisites
-*.d
+#*.d
 
 # Compiled Object files
 *.slo
 *.lo
-*.o
+#*.o
 *.obj
 
 # Precompiled Headers
@@ -210,7 +210,7 @@ venv.bak/
 
 # Executables
 *.exe
-*.out
+#*.out
 *.app
 
 ##############
@@ -237,8 +237,8 @@ sdk/env
 
 .project
 
-_build
-*.o-*
+#_build
+#*.o-*
 
 .DS_Store
 
