@@ -131,7 +131,6 @@ int main(void)
      APP_ERROR_CHECK(err_code);
     while (1)
     {
-    	nrf_gpio_pin_write(13, 0);
         __SEV();
         __WFE();
         __WFE();
