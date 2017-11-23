@@ -127,23 +127,11 @@ int main(void)
     err_code = bsp_init(BSP_INIT_BUTTONS, bsp_event_callback);
     APP_ERROR_CHECK(err_code);
 
-    //Configure WDT.
-    // nrf_drv_wdt_config_t config = NRF_DRV_WDT_DEAFULT_CONFIG;
-    // err_code = nrf_drv_wdt_init(&config, wdt_event_handler);
-    // APP_ERROR_CHECK(err_code);
-    // err_code = nrf_drv_wdt_channel_alloc(&m_channel_id);
-    // APP_ERROR_CHECK(err_code);
-    // nrf_drv_wdt_enable();
-
-    //Indicate program start on LEDs.
-    // for (uint32_t i = 0; i < LEDS_NUMBER; i++)
-    // {   nrf_delay_ms(200);
-    //     bsp_board_led_on(i);
-    // }
      err_code = bsp_buttons_enable();
      APP_ERROR_CHECK(err_code);
     while (1)
     {
+    	nrf_gpio_pin_write(13, 0);
         __SEV();
         __WFE();
         __WFE();
