@@ -1,0 +1,487 @@
+{
+	"EmulatorConfiguration": [
+		{
+			"peripheralsPort": 8000
+		}
+	],
+
+	"ModelConfigurations": [
+		{
+			"name": "RADIO",
+			"config": {
+				"role": "slave",
+				"ip": "10.211.55.3",
+				"port": 41000
+			}
+		}
+	],
+	"FlashConfigurations": [
+		{
+			"loadBleHack": true
+		}
+	],
+	"Peripherals": [
+		{
+			"name": "nrf52",
+			"id": 0,
+			"type": "MCU",
+			"class": "MCU",
+			"config": {
+				"0": 0,
+				"1": 1,
+				"2": 2,
+				"3": 3,
+				"4": 4,
+				"5": 5,
+				"6": 6,
+				"7": 7,
+				"8": 8,
+				"9": 9,
+				"10": 10,
+				"11": 11,
+				"12": 12,
+				"13": 13,
+				"14": 14,
+				"15": 15,
+				"16": 16,
+				"17": 17,
+				"18": 18,
+				"19": 19,
+				"20": 20,
+				"21": 21,
+				"22": 22,
+				"23": 23,
+				"24": 24,
+				"25": 25,
+				"26": 26,
+				"27": 27,
+				"28": 28,
+				"29": 29,
+				"30": 30,
+				"31": 31
+			}
+		},
+		{
+			"name": "ResetButton",
+			"id": 2,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 21
+			}
+		},
+		{
+			"name": "BUTTON1",
+			"id": 3,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 13
+			}
+		},
+		{
+			"name": "BUTTON2",
+			"id": 4,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 14
+			}
+		},
+		{
+			"name": "BUTTON3",
+			"id": 5,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 15
+			}
+		},
+		{
+			"name": "BUTTON4",
+			"id": 6,
+			"type": "Peripheral",
+			"class": "Button",
+			"config": {
+				"in": 16
+			}
+		},
+		{
+			"name": "SHORT_0",
+			"id": 7,
+			"type": "Peripheral",
+			"class": "Short",
+			"config": {
+				"pin0": 2,
+				"pin1": 4
+			}
+		}
+	],
+	"DeviceConfiguration": [
+		{
+			"_description": "set the fCODEPAGESIZE in the FICR (0x10000010)",
+			"address": 268435472,
+			"value": 4096
+		},
+		{
+			"_description": "set the CODESIZE in the FICR (0x10000014)",
+			"address": 268435476,
+			"value": 128
+		},
+		{
+			"_description": "set the first 32 bits of the MAC address in the FICR (0x100000A4)",
+			"address": 268435620,
+			"value": 2946736263
+		},
+		{
+			"_description" : "set the last 16 bits of the MAC address in the FICR (0x100000A8)",
+			"address": 268435624,
+			"value": 1489237561
+		},
+		{
+			"_description" : "Encryption Root, word 0 in the FICR (0x10000080)",
+			"address": 268435584,
+			"value": 3597134306
+		},
+		{
+			"_description" : "Encryption Root, word 1 in the FICR (0x10000084)",
+			"address": 268435588,
+			"value": 1576681794
+		},
+		{
+			"_description" : "Encryption Root, word 2 in the FICR (0x10000088)",
+			"address": 268435592,
+			"value": 71665143
+		},
+		{
+			"_description" : "Encryption Root, word 3 in the FICR (0x1000008C)",
+			"address": 268435596,
+			"value": 1642787530
+		},
+		{
+			"_description" : "Identity Root, word 0 in the FICR (0x10000090)",
+			"address": 268435600,
+			"value": 1586082968
+		},
+		{
+			"_description" : "Identity Root, word 1 in the FICR (0x10000094)",
+			"address": 268435604,
+			"value": 4095099349
+		},
+		{
+			"_description" : "Identity Root, word 2 in the FICR (0x10000098)",
+			"address": 268435608,
+			"value": 3075251654
+		},
+		{
+			"_description" : "Identity Root, word 3 in the FICR (0x1000009C)",
+			"address": 268435612,
+			"value": 290890659
+		},
+		{
+			"_description" : "Errata 31 related in FICR",
+			"address": 268436036,
+			"value": 1520522973
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436484,
+			"value": 4294964000
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436488,
+			"value": 4294964035
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436492,
+			"value": 4294964061
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436496,
+			"value": 4294964224
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436500,
+			"value": 4294964306
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436504,
+			"value": 4294964091
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436508,
+			"value": 4294918092
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436512,
+			"value": 4294918040
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436516,
+			"value": 4294918040
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436520,
+			"value": 4294901778
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436524,
+			"value": 4294901837
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436528,
+			"value": 4294917648
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436532,
+			"value": 4294967266
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436536,
+			"value": 4294967040
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436540,
+			"value": 4294967060
+		},
+
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436544,
+			"value": 4294967065
+		},
+		{
+			"_description" : "NRF_TEMP",
+			"address": 268436548,
+			"value": 4294967120
+		},
+		{
+			"_description" : "Errata 108",
+			"address": 268436056,
+			"value": 4294967295
+		},
+		{
+			"_description" : "Errata 108",
+			"address": 268440064,
+			"value": 21
+		},
+		{
+			"_description" : "Errata 108",
+			"address": 268440068,
+			"value": 21
+		}
+	],
+	"InternalsPeripherals" : {
+		"nrf52": [
+			{
+				"class": "Flash",
+				"id": 1,
+				"type": "Peripheral"
+			},
+			{
+				"class": "Data RAM",
+				"id": 2,
+				"type": "Peripheral"
+			},
+			{
+				"class": "ITM",
+				"id": 3,
+				"type": "Peripheral"
+			},
+			{
+				"class": "DWT",
+				"id": 4,
+				"type": "Peripheral"
+			},
+			{
+				"class": "FPB",
+				"id": 5,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TPIU",
+				"id": 6,
+				"type": "Peripheral"
+			},
+			{
+				"class": "ETM",
+				"id": 7,
+				"type": "Peripheral"
+			},
+			{
+				"class": "System",
+				"id": 8,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SystemControlBlock",
+				"id": 9,
+				"type": "Peripheral"
+			},
+			{
+				"class": "Register_router",
+				"id": 10,
+				"type": "Peripheral"
+			},
+			{
+				"class": "P0",
+				"id": 11,
+				"type": "Peripheral"
+			},
+			{
+				"class": "GPIOTE",
+				"id": 12,
+				"type": "Peripheral"
+			},
+			{
+				"class": "UICR",
+				"id": 13,
+				"type": "Peripheral"
+			},
+			{
+				"class": "FICR",
+				"id": 14,
+				"type": "Peripheral"
+			},
+			{
+				"class": "UARTE",
+				"id": 15,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TIMER",
+				"id": 16,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TIMER1",
+				"id": 17,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TIMER2",
+				"id": 18,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RADIO",
+				"id": 19,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RNG",
+				"id": 20,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SPIM_TWIM",
+				"id": 21,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SPIM_TWIM1",
+				"id": 22,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SPIM_TWIM2",
+				"id": 23,
+				"type": "Peripheral"
+			},
+			{
+				"class": "TEMP",
+				"id": 24,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RTC",
+				"id": 25,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RTC1",
+				"id": 26,
+				"type": "Peripheral"
+			},
+			{
+				"class": "RTC2",
+				"id": 27,
+				"type": "Peripheral"
+			},
+			{
+				"class": "WDT",
+				"id": 28,
+				"type": "Peripheral"
+			},
+			{
+				"class": "MWU",
+				"id": 29,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PPI",
+				"id": 30,
+				"type": "Peripheral"
+			},
+			{
+				"class": "LPCOMP",
+				"id": 31,
+				"type": "Peripheral"
+			},
+			{
+				"class": "ECB",
+				"id": 32,
+				"type": "Peripheral"
+			},
+			{
+				"class": "CCM",
+				"id": 33,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SAADC",
+				"id": 34,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PWM",
+				"id": 35,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PWM1",
+				"id": 36,
+				"type": "Peripheral"
+			},
+			{
+				"class": "PWM2",
+				"id": 37,
+				"type": "Peripheral"
+			},
+			{
+				"class": "POWER_CLOCK",
+				"id": 38,
+				"type": "Peripheral"
+			},
+			{
+				"class": "SUDO",
+				"id": 39,
+				"type": "Peripheral"
+			}
+		]
+	}
+}
