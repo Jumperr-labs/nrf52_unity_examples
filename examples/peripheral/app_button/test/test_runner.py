@@ -14,7 +14,7 @@ class TestAppButton(unittest.TestCase):
             self.is_led_on = True
 
     def setUp(self):
-        self.vlab = Vlab(working_directory=dir, remote_mode=False)
+        self.vlab = Vlab(working_directory=dir)
         self.vlab.load(fw_bin)
         self.vlab.on_pin_level_event(self.pins_listener)
         self.vlab.run_for_ms(500)
